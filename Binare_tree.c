@@ -9,7 +9,7 @@ struct BIN_TREE  *left;
 
 typedef struct QUEUE{
 	struct QUEUE *next;
-	int value;
+	bin_tree *value;
 }Queue;
 
 bin_tree *initree(int val);
@@ -17,13 +17,13 @@ void printleft_infix(bin_tree *tree);
 void add_left(int val,bin_tree *tree);
 void add_right(int val,bin_tree *tree);
 void set_value(int val,bin_tree *tree);
-
+void printwidth(bin_tree *tree);
 
 //queue
 Queue *init_queue();
 int is_empty(Queue *queue);
-void enqueue(Queue *queue,int val);
-int dequeue(Queue *queue);
+void enqueue(Queue *queue,bin_tree *val);
+bin_tree *dequeue(Queue *queue);
 int len_queue(Queue *queue);
 
 int main(int argc, char *argv[])
@@ -36,14 +36,8 @@ int main(int argc, char *argv[])
 	printleft_infix(tree);
 	set_value(15,tree);
 	printleft_infix(tree);
+	printwidth(tree);
 	
-	Queue *queue=init_queue();
-	enqueue(queue,10);
-	enqueue(queue,12);
-	enqueue(queue,14);
-	int a=len_queue(queue);
-	dequeue(queue);
-	int b=len_queue(queue);
 	return 0;
 }
 
@@ -92,6 +86,27 @@ void printleft_infix(bin_tree *tree)
 	printleft_infix(tree->right);
 }
 
+void printwidth(bin_tree *tree)
+{
+	
+	Queue *queue=init_queue();
+	enqueue(queue,tree);
+	while (!is_empty(queue))
+	{
+		bin_tree *node=dequeue(queue);
+		if(node!=NULL)
+		{
+			printf("%d\n",node->value);
+		
+			if(node->left!=NULL)
+				enqueue(queue,node->left);
+			if(node->right!=NULL)
+				enqueue(queue,node->right);
+		}
+	}
+}
+
+
 
 //file
 Queue *init_queue()
@@ -101,7 +116,7 @@ Queue *init_queue()
 	return queue;
 }
 
-void enqueue(Queue *queue,int val)
+void enqueue(Queue *queue,bin_tree *val)
 {
 		
 			Queue *temp=init_queue();
@@ -113,15 +128,18 @@ void enqueue(Queue *queue,int val)
 			queue->next=temp;
 }
 
-int dequeue(Queue *queue)
+bin_tree *dequeue(Queue *queue)
 {
+		bin_tree *tree;
 		Queue *temp=queue;
 		while(temp->next->next!=NULL)
 			temp=temp->next;
 			
+		tree=temp->next->value;
 		free(temp->next);
 		temp->next=NULL;
-		return temp->value;
+		
+		return tree;
 		
 }
 
@@ -132,7 +150,7 @@ int len_queue(Queue *queue)
 	while(temp->next!=NULL)
 	{
 		temp=temp->next;
-		printf("%d \n",temp->value);
+		printf("%d \n",temp->value->value);
 		i+=1;
 		
 	}
