@@ -105,7 +105,40 @@ void printwidth(bin_tree *tree)
 		}
 	}
 }
-
+/*
+void printwidth(bin_tree *tree)
+{
+	
+	Queue *queue=init_queue();
+	Queue *queue_index=init_queue();
+	enqueue(queue,tree->value);
+	enqueue(queue_index,0);
+	bin_tree tab[100];
+	int count=1;
+	while (!is_empty(queue))
+	{
+		int i=dequeue(queue_index)
+		
+		printf("%d\n",dequeue(queue));
+		
+		if(node->left!=NULL)
+		{
+			enqueue(queue,tab[i]->left);
+			enqueue(queue_index,i+count);
+			tab[i+count]=tab[i]->left;
+		}
+		count+=1;
+		if(node->right!=NULL)
+		{
+			enqueue(queue,tab[i]->right);
+			enqueue(queue_index,i+count);
+			tab[i+count]=tab[i]->right;
+		}
+		count+=1;
+		
+	}
+}
+*/
 
 
 //file
